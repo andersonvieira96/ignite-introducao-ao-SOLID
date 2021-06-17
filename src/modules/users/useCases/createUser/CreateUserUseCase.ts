@@ -13,7 +13,7 @@ class CreateUserUseCase {
     if(!this.usersRepository.findByEmail(email)){
       return this.usersRepository.create({name, email});
     }else{
-      throw new Error("Email already exist");
+      throw new Error("This email is already in use.");
       
     }
   }

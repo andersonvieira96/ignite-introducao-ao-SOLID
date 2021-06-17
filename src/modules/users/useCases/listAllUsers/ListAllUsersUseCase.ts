@@ -13,7 +13,7 @@ class ListAllUsersUseCase {
     if(user ? user.admin : false){
     return this.usersRepository.list();
     }else{
-      throw new Error("Is user not admin");
+      throw new Error("You need to be an administrator to list all users.");
       
     }
   }

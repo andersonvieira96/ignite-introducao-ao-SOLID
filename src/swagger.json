@@ -1,0 +1,321 @@
+{
+    "openapi": "3.0.0",
+    "info":{
+        "title": "Atlas",
+        "description": "Essa documentação é sobre a Atlas API.",
+        "version": "1.0.0",
+        "contact":{
+            "email": "andersonvieira96@hotmail.com"
+        }
+    },
+    "paths":{
+        "/users":{
+            "post":{
+                "tags":["users"],
+                "summary":"Cria um novo usuário",
+                "description": "Cria um novo ``user``",
+                "requestBody":{
+                    "required": true,
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "type": "object",
+                                "properties":{
+                                    "name":{
+                                        "type":"string"
+                                    },
+                                    "email":{
+                                        "type":"string"
+                                    }
+                                },
+                                "example":{
+                                    "name": "Anderson Vieira da Silva",
+                                    "email": "anderson@vieira.com"
+
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "201": {
+                        "description": "Operação realizada com Sucesso",
+                        "content": {
+                          "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties":{
+                                    "admin": {
+                                        "type": "boolean"
+                                    },
+                                    "id": {
+                                        "type": "string"
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "email":{ 
+                                        "type": "string"
+                                    },
+                                    "created_at":{ 
+                                        "type": "string"
+                                    },
+                                    "updated_at": {
+                                        "type":"string"
+                                    }
+                                },
+                                "example":{
+                                    "admin": false,
+                                    "id": "3b05f980-facd-4ef8-8a74-9776b4c31918",
+                                    "name": "Anderson Vieira da Silva",
+                                    "email": "anderson@vieira.com",
+                                    "created_at": "2021-06-17T18:41:12.304Z",
+                                    "updated_at": "2021-06-17T18:41:12.304Z"
+                                }
+                            }
+                          }
+                        }
+                    },
+                    "400":{
+                        "description": "Email já está sendo utilizado.",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type": "object",
+                                    "properties":{
+                                        "error":{
+                                            "type":"string"
+                                        }
+                                    },
+                                    "example":{
+                                        "error": "This email is already in use."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get":{
+                "tags":["users"],
+                "summary":"Retoma todos os usuários",
+                "description": "Somente usuários **``admin``** pode acessar",
+                "parameters":[{
+                    "name": "user_id",
+                    "in": "header",
+                    "required": true
+                }],
+                "responses":{
+                    "200":{
+                        "description": "Operação realizada com Sucesso",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                   "type": "array",
+                                   "items":{
+                                       "type": "object",
+                                       "properties":{
+                                           "admin":{
+                                               "type":"string"
+                                           },
+                                           "name":{
+                                               "type":"string"
+                                           },
+                                           "email":{
+                                               "type":"string"
+                                           },
+                                           "created_at":{
+                                               "type":"string"
+                                           },
+                                           "updated_at":{
+                                               "type":"string"
+                                           }
+                                       }
+                                   },
+                                   "example":[
+                                       {
+                                        "admin": false,
+                                        "id": "3b05f980-facd-4ef8-8a74-9776b4c31918",
+                                        "name": "Anderson Vieira da Silva",
+                                        "email": "anderson@vieira.com",
+                                        "created_at": "2021-06-17T18:41:12.304Z",
+                                        "updated_at": "2021-06-17T18:41:12.304Z"
+                                       },
+                                       {
+                                        "admin": true,
+                                        "id": "dc282198-7136-413c-9360-c99570c93993",
+                                        "name": "Alessandra Sabino de Souza",
+                                        "email": "ale@souza.com",
+                                        "created_at": "2021-06-17T19:26:29.017Z",
+                                        "updated_at": "2021-06-17T19:26:29.017Z"
+                                      }
+                                   ]
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "description":"Usuário sem permissão ou usuário não encontrado.",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "error":{
+                                            "type": "string"
+                                        }
+                                    },
+                                    "example":{
+                                        "error":"You need to be an administrator to list all users."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{user_id}":{
+            "get":{
+                "tags":["users"],
+                "summary":"Retorna um usuário específico",
+                "parameters":[
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "required":true,
+                        "description":"ID do usuário"
+                    }
+                ],
+                "responses":{
+                    "200":{
+                        "description":"Operação realizada com Sucesso",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "name":{
+                                            "type":"string"
+                                        },
+                                        "email":{
+                                            "type":"string"
+                                        },
+                                        "admin":{
+                                            "type":"boolean"
+                                        },
+                                        "id":{
+                                            "type":"string"
+                                        },
+                                        "created_at":{
+                                            "type":"string"
+                                        },
+                                        "updated_at":{
+                                            "type":"string"
+                                        }
+                                    },
+                                    "example":{
+                                        "admin": false,
+                                        "id": "3b05f980-facd-4ef8-8a74-9776b4c31918",
+                                        "name": "Anderson Vieira da Silva",
+                                        "email": "anderson@vieira.com",
+                                        "created_at": "2021-06-17T18:41:12.304Z",
+                                        "updated_at": "2021-06-17T18:41:12.304Z"
+                                      }
+                                }
+                            }
+                        }
+                    },
+                    "404":{
+                        "description":"Usuário não encontrado.",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "error":{
+                                            "type":"string"
+                                        }
+                                    },
+                                    "example":{
+                                        "error": "User not found."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{user_id}/admin":{
+            "patch":{
+                "tags":["users"],
+                "summary":"Torna admin um usuário",
+                "description": "Transforma em ``admin`` user",
+                "parameters":[{
+                    "name": "user_id",
+                    "required":true,
+                    "in":"path"
+                }],
+                "responses":{
+                    "200":{
+                        "description":"Operação realizada com Sucesso",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "id":{
+                                            "type":"string"
+                                        },
+                                        "name":{
+                                            "type":"string"
+                                        },
+                                        "email":{
+                                            "type":"string"
+                                        },
+                                        "admin":{
+                                            "type":"boolean"
+                                        },
+                                        "created_at":{
+                                            "type":"string"
+                                        },
+                                        "updated_at":{
+                                            "type":"string"
+                                        }
+                                    },
+                                    "example":{
+                                        "admin": true,
+                                        "id": "3b05f980-facd-4ef8-8a74-9776b4c31918",
+                                        "name": "Anderson Vieira da Silva",
+                                        "email": "anderson@vieira.com",
+                                        "created_at": "2021-06-17T18:41:12.304Z",
+                                        "updated_at": "2021-06-17T18:41:12.304Z"
+                                      }
+                                }
+                            }
+                        }
+                    },
+                    "404":{
+                        "description":"Usuário não encontrado.",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "error":{
+                                            "type":"string"
+                                        }
+                                    },
+                                    "example":{
+                                        "error": "User not found."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
